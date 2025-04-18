@@ -5,11 +5,11 @@ def main():
    expense = userinput()
 
    save_expense_to_file(expense, expense_file_path)
+
+   summarise_expense(expense_file_path)
    
 
-   
-   
-   
+
  #User input expense.
 
 def userinput():
@@ -43,24 +43,27 @@ def userinput():
            print("Invalid input please try again")
 
 
-    
+
+ 
 
 
-
-
-
-    #Save it to a csv file.
-
-
-
-    #Read file and summarise expenses.
-
-
+#Save to csv file
 
 def save_expense_to_file(expense:Expense, expense_file_path):
    with open(expense_file_path, "a") as f:
       #"a" means append which means not to over]write this file jus add on to
       f.write(f"{expense.name},{expense.amount},{expense.category}\n")
    
+#Read that csv file
+ 
+
+def summarise_expense(expense_file_path):
+   with open(expense_file_path, "r") as f:
+      #r is read only
+      lines= f.readlines()
+      for line in lines:
+         print(line) 
+         
+
 if __name__=="__main__":
     main()
