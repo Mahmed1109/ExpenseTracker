@@ -2,7 +2,10 @@ from expen import Expense
 def main():
    expense_file_path="expense.csv"
 
-   
+   expense = userinput()
+
+   save_expense_to_file(expense, expense_file_path)
+
    summarise_expense(expense_file_path)
    
 
@@ -55,18 +58,20 @@ def save_expense_to_file(expense:Expense, expense_file_path):
  
 
 def summarise_expense(expense_file_path):
-    expenses = [ ]
+    expenses = []
     with open(expense_file_path, "r") as f:
         lines = f.readlines()
         for line in lines:
-            expense_name, expense_amount, expense_category = line.strip().split(",")
+            stripped_line = line.strip()
+            expense_name, expense_amount, expense_category = stripped_line.split(",")
             line_expense = Expense(
                 name=expense_name,
                 amount=float(expense_amount),
                 category=expense_category,
             )
             expenses.append(line_expense)
-    print(expenses)   
 
+    # Only print once
+    print(expenses)
 if __name__=="__main__":
     main()
