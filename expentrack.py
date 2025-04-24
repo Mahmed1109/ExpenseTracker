@@ -2,12 +2,13 @@ from expen import Expense
 
 def main():
    expense_file_path="expense.csv"
+   budget = 2000
 
    expense = userinput()
 
    save_expense_to_file(expense, expense_file_path)
 
-   summarise_expense(expense_file_path)
+   summarise_expense(expense_file_path,budget)
    
 
 
@@ -58,7 +59,7 @@ def save_expense_to_file(expense:Expense, expense_file_path):
 #Read that csv file
  
 
-def summarise_expense(expense_file_path):
+def summarise_expense(expense_file_path,budget):
     print(f"🎯 Summarizing User Expense")
     expenses: list[Expense] = []
     with open(expense_file_path, "r") as f:
@@ -84,7 +85,13 @@ def summarise_expense(expense_file_path):
     print("Expenses By Category 📈:")
     for key, amount in amount_by_category.items():
         print(f"  {key}: ${amount:.2f}")
-          
+    
+
+    total_spent = sum([x.amount for x in expenses])
+    print(f"💵 Total Spent: £{total_spent:.2f}")
+
+    remaining_budget= budget - total_spent
+    print(f"Budget remaining: £{remaining_budget:.2f}")
 
 
     # Only print once
