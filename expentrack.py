@@ -1,4 +1,6 @@
 from expen import Expense
+import calendar
+import datetime
 
 def main():
    expense_file_path="expense.csv"
@@ -92,6 +94,16 @@ def summarise_expense(expense_file_path,budget):
 
     remaining_budget= budget - total_spent
     print(f"Budget remaining: £{remaining_budget:.2f}")
+
+
+    now = datetime.datetime.now()
+    days_in_month = calendar.monthrange(now.year, now.month)[1]
+    remaining_days = days_in_month - now.day
+
+    daily_budget = remaining_budget / remaining_days
+    print((f"👉 Budget Per Day: ${daily_budget:.2f}"))
+
+
 
 
     # Only print once
