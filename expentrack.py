@@ -3,50 +3,71 @@ import calendar
 import datetime
 
 def main():
-   expense_file_path="expense.csv"
-   budget = 2000
+    expense_file_path = "expense.csv"
+    budget = 2000
 
-   expense = userinput()
+    expenses = userinput()
 
-   save_expense_to_file(expense, expense_file_path)
+    # Loop through the list of expenses and save each one individually
+    for expense in expenses:
+        save_expense_to_file(expense, expense_file_path)
 
-   summarise_expense(expense_file_path,budget)
-   
+    summarise_expense(expense_file_path, budget)
+
 
 
  #User input expense.
 
 def userinput():
-    expense_name= input("Enter expense name: ")
-    expense_amount= float(input("Enter expense amount: "))
-    
     expense_categories = [
         "🍔Food", 
         "🏠Home", 
         "💼Work", 
         "🕺🏽Fun",
         "🤠Misc",
+    ]
 
-        ] 
-    
+    expenses = []
+
     while True:
-        print("Select a category please: ")
-        for i, category_name in enumerate(expense_categories):
-            print(f"{i+1}. {category_name}")
+        print("\n📝 Enter a new expense:")
+        expense_name = input("Enter expense name: ")
 
-        value_range=f"[1-{len(expense_categories)}]"
-        user_selected= int(input(f"Enter a category number {value_range}: ")) -1
+        try:
+            expense_amount = float(input("Enter expense amount: "))
+        except ValueError:
+            print("⚠️ Please enter a valid number.")
+            continue
 
-        
-        #Added -1 as we added 1 beforehand so reset back to normal index numbers where it starts from 0
-        if user_selected in range(len(expense_categories)):
-         selected_category=expense_categories[user_selected]
-         new_expense=Expense(name=expense_name,category=selected_category,amount=expense_amount)
-         return new_expense
-        else:
-           print("Invalid input please try again")
+        # Category selection loop
+        while True:
+            print("Select a category:")
+            for i, category_name in enumerate(expense_categories):
+                print(f"{i+1}. {category_name}")
 
+            value_range = f"[1-{len(expense_categories)}]"
+            try:
+                user_selected = int(input(f"Enter a category number {value_range}: ")) - 1
+            except ValueError:
+                print("⚠️ Invalid input, must be a number.")
+                continue
 
+            if user_selected in range(len(expense_categories)):
+                selected_category = expense_categories[user_selected]
+                break
+            else:
+                print("⚠️ Invalid category, please try again.")
+
+        # Create and store expense
+        new_expense = Expense(name=expense_name, category=selected_category, amount=expense_amount)
+        expenses.append(new_expense)
+
+        # Ask if they want to add another
+        more = input("Add another expense? (y/n): ").strip().lower()
+        if more != "y":
+            break
+
+    return expenses
 
  
 
