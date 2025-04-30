@@ -4,7 +4,17 @@ import datetime
 
 def main():
     expense_file_path = "expense.csv"
-    budget = 2000
+    while True:
+      try:
+          budget=float(input(" Enter your monthly budget: £ "))
+          if budget <=0:
+            print("Budget must be greater than zero")
+            continue
+          break
+      except ValueError:
+        print("Please enter a valid number.")
+
+        
 
     expenses = userinput()
 
